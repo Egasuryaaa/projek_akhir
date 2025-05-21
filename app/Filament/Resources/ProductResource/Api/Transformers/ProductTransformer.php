@@ -19,12 +19,15 @@ class ProductTransformer extends JsonResource
     public function toArray($request)
     {
         // return $this->resource->toArray();
-        return [
+         return [
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
             'price' => $this->price,
             'stock' => $this->stock,
+            'poster' => $this->images ? asset('storage/' . $this->images) : null,
+            'fishType' => $this->category?->name,
+            'seller' => $this->seller?->name,
         ];
     }
 }

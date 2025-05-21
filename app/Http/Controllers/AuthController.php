@@ -29,4 +29,25 @@ class AuthController extends Controller
             'token_type' => 'Bearer',
         ]);
     }
+
+    // Tambahkan method register di bawah ini
+    public function register(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => bcrypt($validated['password']),
+        ]);
+
+        return response()->json([
+            'message' => 'Registration successful',
+            'user' => $user,
+        ], 201);
+    }
 }
